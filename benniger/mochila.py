@@ -7,28 +7,20 @@ class Mochila:
     itens = list()
     capacidadeAtual = int(0)
     capacidadeTotal = int(300)
-    itensDisponiveis = {
-    'kit': 50,
-    'fruta': 50,
-    'roupa': 100,
-    'livro': 100,
-    'arma': 100
-    }
 
-    def __init__(self, item):
+    def __init__(self, itensDisponiveis ,item):
+        self.itensDisponiveis = itensDisponiveis
         self.item = item
 
     def adicionar(self):
-        try:
-            if self.itensDisponiveis[self.item]:
-                if (self.itensDisponiveis[self.item] + self.capacidadeAtual) <= self.capacidadeTotal:
-                    print('Adicionando Item...')
-                    print(f'Item:  {self.item}  Adicionado!')
+            if (self.itensDisponiveis[self.item] + self.capacidadeAtual) <= self.capacidadeTotal:
+                print('Adicionando Item...')
+                print(f'Item:  {self.item}  Adicionado!')
 
-                    return self.item , self.itensDisponiveis[self.item]
-        except KeyError:
-            print('Produto não está registrado!')
-            return
+                return self.item , self.itensDisponiveis[self.item] 
+            else:
+                print('Mochila Cheia')
+                return None
 
 
     def listarItens(self):
@@ -40,6 +32,16 @@ class Mochila:
 
 
 while True:
+
+    itensDisponiveis = {
+    'kit': 50,
+    'fruta': 50,
+    'roupa': 100,
+    'livro': 100,
+    'arma': 100,
+    'uva':310
+    }
+
     menu = input('''
 
 [1] Adicionar Item
@@ -51,8 +53,15 @@ while True:
     if menu == '1':
         os.system('clear')
         item = str(input('Digite o Item que Deseja Adicionar:\t'))
-        adicionarItem =  Mochila(item=item)
-        novoItem , valorItem = adicionarItem.adicionar()
-
-        Mochila.itens.append(novoItem)
-        Mochila.capacidadeAtual += valorItem
+        try:
+            if itensDisponiveis[item]:
+                adicionarItem =  Mochila(item=item ,itensDisponiveis=itensDisponiveis)
+                try:
+                    novoItem , valorItem  = adicionarItem.adicionar()
+                    Mochila.itens.append(novoItem)
+                    Mochila.capacidadeAtual += valorItem
+                except TypeError:
+                    pass
+        except KeyError:
+            print('O produto não está registrado!')
+        
