@@ -70,4 +70,6 @@ cpf= str(input('digite \n =>\t'))
 cpf1= Validador_de_cpf(cpf)
 
 
+#TODO resolver bug de metodo
+
 print(cpf1.primeiro_numero(cpf1.verificar_numeros()))
