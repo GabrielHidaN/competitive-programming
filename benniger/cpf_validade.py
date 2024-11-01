@@ -44,10 +44,25 @@ class Validador_de_cpf:
         if func == True:
             cpf_valido = set(cpf)
             if len(cpf_valido) == 1:
-                print('invalido')
-            print('boaaaaa')
+                return False
+            return True
         
+    def primeiro_numero(self , func):
+        self.cpf = cpf
+        if func == True:
+            result = 0 
+            nineDigits = cpf[:9]
+
+            regressar = 10
+            for digit in nineDigits:
+                result += int(digit) * int(regressar)
+                regressar -= 1
+            firstDigit = (result * 10) % 11
+
+            firstDigit = firstDigit if firstDigit <= 9 else 0
             
+            return firstDigit
+        return
 
 
 
@@ -55,4 +70,4 @@ cpf= str(input('digite \n =>\t'))
 cpf1= Validador_de_cpf(cpf)
 
 
-cpf1.verificar_numeros(cpf1.verificar_modelo_enviado())
+print(cpf1.primeiro_numero(cpf1.verificar_numeros()))
