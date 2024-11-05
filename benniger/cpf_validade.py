@@ -38,31 +38,42 @@ class Validador_de_cpf:
         print('@@@ Você Deve enviar Um digito!')
         return False
 
-    def verificar_numeros(self , func):
+
+    def verificar_numeros(self ):
         self.cpf = str(cpf)
-        self.func = func
-        if func == True:
+        if self.verificar_modelo_enviado() == True:
             cpf_valido = set(cpf)
             if len(cpf_valido) == 1:
+                print('@@@ CPF Inválido, Você tentou me sacanear hahaha @@@')
                 return False
             return True
+        return False
+    
+    def validar_cpf(self):
+        if self.verificar_numeros():
+        # Cálculo do primeiro dígito verificador
+            soma = sum(int(cpf[i]) * (10 - i) for i in range(9))
+            primeiro_digito = (soma * 10) % 11
+            primeiro_digito = 0 if primeiro_digito > 9 else primeiro_digito
+
+            if primeiro_digito != int(cpf[9]):
+                print('@@@ CPF Inválido /1 digit @@@')
+                return
+
+        # Cálculo do segundo dígito verificador
+            soma = sum(int(cpf[i]) * (11 - i) for i in range(10))
+            segundo_digito = (soma * 10) % 11
+            segundo_digito = 0 if segundo_digito == 10 else segundo_digito
+
+            if segundo_digito == int(cpf[10]):
+                print(f'O CPF :  {cpf} é Válido.')
+                return
+            else:
+                print('@@@ CPF Inválido /2 digit @@@')
+                return
         
-    def primeiro_numero(self , func):
-        self.cpf = cpf
-        if func == True:
-            result = 0 
-            nineDigits = cpf[:9]
 
-            regressar = 10
-            for digit in nineDigits:
-                result += int(digit) * int(regressar)
-                regressar -= 1
-            firstDigit = (result * 10) % 11
 
-            firstDigit = firstDigit if firstDigit <= 9 else 0
-            
-            return firstDigit
-        return
 
 
 
@@ -71,5 +82,4 @@ cpf1= Validador_de_cpf(cpf)
 
 
 #TODO resolver bug de metodo
-
-print(cpf1.primeiro_numero(cpf1.verificar_numeros()))
+cpf1.validar_cpf()
